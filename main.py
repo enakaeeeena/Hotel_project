@@ -13,17 +13,13 @@ app = FastAPI(title="Hotel API", version="1.0")
 # Создание таблиц при старте
 create_db_and_tables()
 
-# ----------------------
 # Зависимости
-# ----------------------
 
 def get_db():
     with Session(engine) as session:
         yield session
 
-# ----------------------
 # Схемы для обновления данных
-# ----------------------
 
 from pydantic import BaseModel
 from typing import Optional
@@ -111,15 +107,13 @@ class ServiceUpdate(BaseModel):
     guest_id: Optional[int] = None
     booking_id: Optional[int] = None
 
-# ----------------------
 # Основные эндпоинты
-# ----------------------
 
 @app.get("/")
 def read_root():
     return {"message": "Hello, Hotel!"}
 
-# --- Guests ---
+#Guests 
 @app.get("/guests", response_model=List[Guest])
 def get_all_guests(db: Session = Depends(get_db)):
     return db.exec(select(Guest)).all()
@@ -164,7 +158,7 @@ def delete_guest(guest_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Guest deleted successfully"}
 
-# --- Bookings ---
+# Bookings
 @app.get("/bookings", response_model=List[Booking])
 def get_all_bookings(db: Session = Depends(get_db)):
     return db.exec(select(Booking)).all()
@@ -218,7 +212,7 @@ def get_bookings_by_guest(guest_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Bookings not found")
     return bookings
 
-# --- Rooms ---
+# Rooms
 @app.get("/rooms", response_model=List[RoomModel])
 def get_available_rooms(db: Session = Depends(get_db)):
     return db.exec(select(RoomModel).where(RoomModel.is_active == True)).all()
@@ -263,7 +257,7 @@ def delete_room(room_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Room deleted successfully"}
 
-# --- Services ---
+# Services
 @app.get("/services", response_model=List[Service])
 def get_all_services(db: Session = Depends(get_db)):
     return db.exec(select(Service)).all()
@@ -317,7 +311,7 @@ def get_services_by_guest(guest_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Services not found")
     return services
 
-# --- Payments ---
+# Payments
 @app.get("/payments", response_model=List[PaymentModel])
 def get_all_payments(db: Session = Depends(get_db)):
     return db.exec(select(PaymentModel)).all()
@@ -371,12 +365,12 @@ def get_payments_by_booking(booking_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Payments not found")
     return payments
 
-# --- Administrators ---
+# Administrators
 @app.get("/administrators", response_model=List[Administrator])
 def get_all_administrators(db: Session = Depends(get_db)):
     return db.exec(select(Administrator)).all()
 
-# --- Детали бронирований ---
+# Детали бронирований
 @app.get("/bookings/details")
 def get_booking_details_endpoint(db: Session = Depends(get_db)):
     bookings = db.exec(select(Booking)).all()

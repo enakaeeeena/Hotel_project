@@ -1,6 +1,6 @@
 from sqlmodel import Session
 from db import engine
-from models import Guest, Administrator, RoomModel, Booking, PaymentModel, Service  # ИЗМЕНЕНО
+from models import Guest, Administrator, RoomModel, Booking, PaymentModel, Service 
 from datetime import date, datetime
 from decimal import Decimal
 
@@ -26,7 +26,7 @@ def seed():
         session.add(booking)
         session.commit()
 
-        payment = PaymentModel(  # ИЗМЕНЕНО
+        payment = PaymentModel( 
             booking_id=booking.id,
             amount=Decimal("150.00"),
             status="paid",

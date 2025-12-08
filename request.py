@@ -17,10 +17,10 @@ def get_bookings_by_guest(guest_id: int):
         ).all()
         return bookings
 
-# Получить доступные комнаты (is_active=True)
+# Получить доступные комнаты 
 def get_available_rooms():
     with Session(engine) as session:
-        rooms = session.exec(select(RoomModel).where(RoomModel.is_active == True)).all()  # ИЗМЕНЕНО
+        rooms = session.exec(select(RoomModel).where(RoomModel.is_active == True)).all()  
         return rooms
 
 # Создать новое бронирование
@@ -47,7 +47,7 @@ def create_booking(guest_id: int, room_id: int, admin_id: int, check_in: date, c
 def get_payments_by_booking(booking_id: int):
     with Session(engine) as session:
         payments = session.exec(
-            select(PaymentModel).where(PaymentModel.booking_id == booking_id)  # ИЗМЕНЕНО
+            select(PaymentModel).where(PaymentModel.booking_id == booking_id) 
         ).all()
         return payments
 
@@ -59,7 +59,7 @@ def get_services_by_guest(guest_id: int):
         ).all()
         return services
 
-# Пример выборки - бронирования с деталями гостя и комнаты
+# Пример бронирования с деталями гостя и комнаты
 def get_booking_details():
     with Session(engine) as session:
         bookings = session.exec(

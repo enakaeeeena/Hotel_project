@@ -27,7 +27,7 @@ class Administrator(SQLModel, table=True):
 
     bookings: List["Booking"] = Relationship(back_populates="admin")
 
-class RoomModel(SQLModel, table=True):  # ИЗМЕНЕНО: Room -> RoomModel
+class RoomModel(SQLModel, table=True): 
     __tablename__ = "room"
     id: Optional[int] = Field(default=None, primary_key=True)
     number: str = Field(sa_column=Column(String(10), unique=True))
@@ -53,12 +53,12 @@ class Booking(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     guest: Optional[Guest] = Relationship(back_populates="bookings")
-    room: Optional[RoomModel] = Relationship(back_populates="bookings")  # ИЗМЕНЕНО
+    room: Optional[RoomModel] = Relationship(back_populates="bookings") 
     admin: Optional[Administrator] = Relationship(back_populates="bookings")
-    payments: List["PaymentModel"] = Relationship(back_populates="booking")  # ИЗМЕНЕНО
+    payments: List["PaymentModel"] = Relationship(back_populates="booking") 
     services: List["Service"] = Relationship(back_populates="booking")
 
-class PaymentModel(SQLModel, table=True):  # ИЗМЕНЕНО: Payment -> PaymentModel
+class PaymentModel(SQLModel, table=True): 
     __tablename__ = "payment"
     id: Optional[int] = Field(default=None, primary_key=True)
     booking_id: Optional[int] = Field(default=None, foreign_key="booking.id")
